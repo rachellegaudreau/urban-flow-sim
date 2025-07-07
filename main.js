@@ -3,6 +3,14 @@
 const CENTER = [40.7128, -74.0060]; // New York City
 const ZOOM = 13;
 
+let selectedZone = null;
+
+const ZONE_COLORS = {
+  residential: '#00ff90',
+  commercial: '#00d0ff',
+  industrial: '#ff8c00'
+};
+
 // entry point
 function initMap() {
     const map = createMap(CENTER, ZOOM);
@@ -31,30 +39,80 @@ const buildings = [
   { name: "Market", lat: 40.713, lng: -74.002 }
 ];
 
+const roads = [
+  { from: "School", to: "Library" },
+  { from: "Library", to: "Hospital" },
+  { from: "School", to: "Market" }
+];
+
 function addBuildings(map) {
-    buildings.forEach(b => {addBuilding(map, b.name, b.lat, b.lng);});
+    buildings.forEach(b => {
+        const marker = addBuilding(map, b.name, b.lat, b.lng);
+        buildingLookup[b.name] = marker.getLatLng();
+    });
 }
 
 // helper function to add building
 function addBuilding(map, label, lat, lng) {
     const marker = L.marker([lat, lng]).addTo(map);
-    marker.bindPopup(`<b>${label}</b>`);
+    marker.bindPopup(`<b>${label}</b><br>Assign Zone`);
+
+    marker.on("click", () => {
+    if (!selectedZone) return;
+
+    // icon color
+    const icon = L.divIcon({
+      className: 'custom-marker',
+      html: `<div style="
+        background-color: ${ZONE_COLORS[selectedZone]};
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 0 8px ${ZONE_COLORS[selectedZone]};">
+      </div>`
+    });
+
+    marker.setIcon(icon);
+    marker.setPopupContent(`<b>${label}</b><br>Zone: ${selectedZone}`);
+  });
+    return marker;
 }
 
 // Add roads between buildings
 function addRoads(map) {
-    const points = [
-        [40.714, -74.005], // School
-        [40.715, -74.007], // Turn
-        [40.716, -74.01]   // Hospital
-    ];
+    roads.forEach(road => {
+    const start = buildingLookup[road.from];
+    const end = buildingLookup[road.to];
 
-    L.polyline(points, {
-        color: '#444',
-        weight: 4,
-        opacity: 0.8
-    }).addTo(map);
+    if (start && end) {
+      L.polyline([start, end], {
+        color: '#ff8de6',
+        weight: 5,
+        dashArray: '4, 8',
+        opacity: 0.9
+      }).addTo(map);
+    } else {
+      console.warn(`Missing coordinates for road: ${road.from} → ${road.to}`);
+    }
+  });
+}
+
+/*zonecontrols*/
+function setupZoneControls() {
+  const buttons = document.querySelectorAll('.zone-btn');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedZone = btn.dataset.zone;
+
+      // Highlight the active button
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
 }
 
 // Run the map setup
 initMap();
+setupZoneControls();
