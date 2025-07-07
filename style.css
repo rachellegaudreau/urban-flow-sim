@@ -1,1 +1,39 @@
+/* color palette: purple, hot pink, peach, teal*/
+body {
+  margin: 0;
+  font-family: 'Courier New', monospace;
+  background: linear-gradient(to bottom right, #2f0033, #0f0c29); /*cool gradient*/
+  color: #fcdfff; /*light purple*/
+  text-align: center;
+}
 
+h2 {
+  margin: 20px 0;
+  font-size: 2rem;
+  color: #ff8de6; /*neon pink*/
+  text-shadow: 2px 2px 5px #000; /*glowing look :)*/
+  letter-spacing: 2px;
+}
+
+#map {
+  height: 500px;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 20px;
+  box-shadow: 0 0 25px #00f0ff, 0 0 10px #ff00c8;
+  border: 2px solid #ff69b4; /*hot pink*/
+}
+
+/* popup body */
+.leaflet-popup-content-wrapper {
+  background: #2b0031;  /*dark purple*/
+  color: #fcdfff; /*light purple*/
+  border-radius: 10px;
+  border: 1px solid #ff9ade; /*pink*/
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.leaflet-popup-tip {
+  background: #2b0031;
+}
