@@ -37,3 +37,66 @@ h2 {
 .leaflet-popup-tip {
   background: #2b0031;
 }
+
+/*zones*/
+#zone-controls {
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.zone-btn {
+  background-color: transparent;
+  color: #fcdfff;
+  border: 2px solid #ff8de6;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 0 10px #ff8de6;
+}
+.zone-btn:hover {
+  background-color: #ff8de620;
+  box-shadow: 0 0 15px #ff00c8;
+}
+.zone-btn.active {
+  background-color: #ff8de6;
+  color: #2f0033;
+  box-shadow: 0 0 15px #ff00c8, 0 0 8px #ff00c8 inset;
+}
+
+/* legend */
+#legend {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: #fcdfff;
+  background: #2b0031;
+  display: inline-block;
+  padding: 10px 14px;
+  border: 1px solid #ff9ade;
+  border-radius: 10px;
+  box-shadow: 0 0 12px #ff00c8;
+}
+.legend-color {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+  border-radius: 4px;
+  vertical-align: middle;
+  box-shadow: 0 0 8px #000;
+}
+.residential {
+  background-color: #00ff90;
+  border: 1px solid #00c078;
+}
+.commercial {
+  background-color: #00d0ff;
+  border: 1px solid #0088cc;
+}
+.industrial {
+  background-color: #ff8c00;
+  border: 1px solid #cc5c00;
+}
