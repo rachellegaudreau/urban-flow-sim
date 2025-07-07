@@ -24,9 +24,15 @@ function addBaseMap(map) {
 }
 
 // building markers
+const buildings = [
+  { name: "School", lat: 40.714, lng: -74.005 },
+  { name: "Hospital", lat: 40.716, lng: -74.01 },
+  { name: "Library", lat: 40.7155, lng: -74.008 },
+  { name: "Market", lat: 40.713, lng: -74.002 }
+];
+
 function addBuildings(map) {
-    addBuilding(map, "School", 40.714, -74.005);
-    addBuilding(map, "Hospital", 40.716, -74.01);
+    buildings.forEach(b => {addBuilding(map, b.name, b.lat, b.lng);});
 }
 
 // helper function to add building
