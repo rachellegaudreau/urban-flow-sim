@@ -5,6 +5,7 @@ const ZOOM = 13;
 const buildingLookup = {};
 
 let selectedZone = null;
+let map;
 
 const ZONE_COLORS = {
   residential: '#00ff90',
@@ -14,7 +15,7 @@ const ZONE_COLORS = {
 
 // entry point
 function initMap() {
-    const map = createMap(CENTER, ZOOM);
+    map = createMap(CENTER, ZOOM);
     addBaseMap(map);
     addBuildings(map);
     addRoads(map);
@@ -32,14 +33,6 @@ function addBaseMap(map) {
     }).addTo(map);
 }
 
-// building markers
-const buildings = [
-  { name: "School", lat: 40.714, lng: -74.005 },
-  { name: "Hospital", lat: 40.716, lng: -74.01 },
-  { name: "Library", lat: 40.7155, lng: -74.008 },
-  { name: "Market", lat: 40.713, lng: -74.002 }
-];
-
 const roads = [
   { from: "School", to: "Library" },
   { from: "Library", to: "Hospital" },
@@ -48,40 +41,80 @@ const roads = [
 
 function addBuildings(map) {
     buildings.forEach(b => {
-        const marker = addBuilding(map, b.name, b.lat, b.lng);
-        buildingLookup[b.name] = marker.getLatLng();
+        const marker = addBuilding(map, b.name, b.lat, b.lng, b.zone);
+        buildingLookup[b.name] = marker;
     });
 }
 
 // helper function to add building
-function addBuilding(map, label, lat, lng) {
-    const marker = L.marker([lat, lng]).addTo(map);
-    marker.bindPopup(`<b>${label}</b><br>Assign Zone`);
-
-    marker.on("click", () => {
-    if (!selectedZone) {
-        alert("Select a zone first.");    
-        return;
-    }
-
-    // icon color
-    const icon = L.divIcon({
-      className: 'custom-marker',
-      html: `<div style="
-        background-color: ${ZONE_COLORS[selectedZone]};
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        border: 2px solid white;
-        box-shadow: 0 0 8px ${ZONE_COLORS[selectedZone]};">
-      </div>`
-    });
-
-    marker.setIcon(icon);
-    marker.setPopupContent(`<b>${label}</b><br>Zone: ${selectedZone}`);
+function addBuilding(map, label, lat, lng, zone) {
+  const icon = L.divIcon({
+    className: 'custom-marker',
+    html: `<div style="
+      background-color: ${ZONE_COLORS[zone] || '#999'};
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 0 8px ${ZONE_COLORS[zone] || '#999'};
+    "></div>`
   });
-    return marker;
+
+  const marker = L.marker([lat, lng], { icon }).addTo(map);
+  marker.zone = zone || null;
+
+  // Set popup with a clickable Assign Zone button
+  marker.bindPopup(`
+    <b>${label}</b><br>
+    Zone: <span class="zone-label">${zone || 'none'}</span><br>
+    <button class="assign-zone-btn">Assign Zone</button>
+  `);
+
+  // click listener to Assign Zone button
+  marker.on('popupopen', () => {
+    const popupEl = marker.getPopup().getElement();
+    const btn = popupEl.querySelector('.assign-zone-btn');
+    if (btn) {
+      btn.onclick = () => {
+        if (!selectedZone) {
+          alert('Select a zone first!');
+          return;
+        }
+        // Update marker zone and icon
+        marker.zone = selectedZone;
+        const newIcon = L.divIcon({
+          className: 'custom-marker',
+          html: `<div style="
+            background-color: ${ZONE_COLORS[selectedZone]};
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 8px ${ZONE_COLORS[selectedZone]};
+          "></div>`
+        });
+        marker.setIcon(newIcon);
+
+        // new zone and button
+        marker.setPopupContent(`
+          <b>${label}</b><br>
+          Zone: <span class="zone-label">${selectedZone}</span><br>
+          <button class="assign-zone-btn">Assign Zone</button>
+        `);
+
+        // Reopen popup
+        marker.openPopup();
+
+        // update buildings array zone for toggles
+        const b = buildings.find(x => x.name === label);
+        if (b) b.zone = selectedZone;
+      };
+    }
+  });
+
+  return marker;
 }
+
 
 // Add roads between buildings
 function addRoads(map) {
@@ -117,6 +150,34 @@ function setupZoneControls() {
   });
 }
 
+function setupZoneToggles() {
+  const checkboxes = document.querySelectorAll('#zone-toggles input[type="checkbox"]');
+
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', () => {
+      const visibleZones = Array.from(checkboxes)
+        .filter(c => c.checked)
+        .map(c => c.dataset.zone);
+
+      Object.values(buildingLookup).forEach(marker => {
+        if (!marker.zone) {
+          map.removeLayer(marker);
+          return;
+        }
+
+        if (visibleZones.includes(marker.zone)) {
+          map.addLayer(marker);
+        } else {
+          map.removeLayer(marker);
+        }
+      });
+    });
+  });
+}
+
+
+
 // Run the map setup
 initMap();
 setupZoneControls();
+setupZoneToggles();
