@@ -19,8 +19,14 @@
       <p><span class= "legend-color commercial"></span>Commercial</p>
       <p><span class= "legend-color industrial"></span>Industrial</p>
     </div>
+    <div id="zone-toggles">
+      <label><input type="checkbox" data-zone="residential" checked /> Residential</label>
+      <label><input type="checkbox" data-zone="commercial" checked /> Commercial</label>
+      <label><input type="checkbox" data-zone="industrial" checked /> Industrial</label>
+    </div>
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="buildings.js"></script>
     <script src="main.js"></script>
   </body>
 </html>
