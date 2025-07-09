@@ -2,6 +2,7 @@
 
 const CENTER = [40.7128, -74.0060]; // New York City
 const ZOOM = 13;
+const buildingLookup = {};
 
 let selectedZone = null;
 
@@ -58,7 +59,10 @@ function addBuilding(map, label, lat, lng) {
     marker.bindPopup(`<b>${label}</b><br>Assign Zone`);
 
     marker.on("click", () => {
-    if (!selectedZone) return;
+    if (!selectedZone) {
+        alert("Select a zone first.");    
+        return;
+    }
 
     // icon color
     const icon = L.divIcon({
