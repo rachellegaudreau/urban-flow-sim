@@ -8,23 +8,29 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h2>Urban Flow Simulator</h2>
-    <div id="zone-controls">
-      <button class= "zone-btn" data-zone="residential">Residential</button>
-      <button class= "zone-btn" data-zone="commercial">Commercial</button>
-      <button class= "zone-btn" data-zone="industrial">Industrial</button>
+    <div id="layout">
+      <div id="sidebar">
+        <h3>Zoning Layers</h3>
+        <div id="zone-toggles">
+          <label><input type="checkbox" data-zone="residential" checked /> Residential</label>
+          <label><input type="checkbox" data-zone="commercial" checked /> Commercial</label>
+          <label><input type="checkbox" data-zone="industrial" checked /> Industrial</label>
+        </div>
+        <div id="legend">
+          <p><span class= "legend-color residential"></span>Residential</p>
+          <p><span class= "legend-color commercial"></span>Commercial</p>
+          <p><span class= "legend-color industrial"></span>Industrial</p>
+        </div>
+      </div>
+
+      <div id="main-content">
+        <h2>Urban Flow Simulator</h2>
+        <div id="map-container">
+          <div id="map"></div>
+        </div> 
+      </div>
     </div>
-    <div id="legend">
-      <p><span class= "legend-color residential"></span>Residential</p>
-      <p><span class= "legend-color commercial"></span>Commercial</p>
-      <p><span class= "legend-color industrial"></span>Industrial</p>
-    </div>
-    <div id="zone-toggles">
-      <label><input type="checkbox" data-zone="residential" checked /> Residential</label>
-      <label><input type="checkbox" data-zone="commercial" checked /> Commercial</label>
-      <label><input type="checkbox" data-zone="industrial" checked /> Industrial</label>
-    </div>
-    <div id="map"></div>
+
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="buildings.js"></script>
     <script src="main.js"></script>
