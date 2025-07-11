@@ -1,59 +1,134 @@
 /* color palette: purple, hot pink, peach, teal*/
+:root {
+  --background: #2f0033;
+  --background2: #1200b0;
+  --textcolor: #fcdfff;
+  --glowcolor: #ff00c8;
+
+  --zoneres: #00ffaa;
+  --zoneresborder: #08c7aa;
+  --zonecom: #6a5fff;
+  --zonecomborder: #522ec0;
+  --zoneind: #d23232;
+  --zoneindborder: #a22a2a;
+
+  --bordercolor: #ff9ade;
+  --mapbordercolor: #ff69b4;
+}
+
 body {
   margin: 0;
   font-family: 'Courier New', monospace;
-  background: linear-gradient(to bottom right, #2f0033, #0f0c29); /*cool gradient*/
-  color: #fcdfff; /*light purple*/
+  background: linear-gradient(to bottom right, var(--background), var(--background2)); 
+  color: var(--textcolor); 
   text-align: center;
+  height: 100vh;
+  overflow: hidden;
 }
 
 h2 {
   margin: 20px 0;
   font-size: 2rem;
-  color: #ff8de6; /*neon pink*/
-  text-shadow: 2px 2px 5px #000; /*glowing look :)*/
+  color: var(--bordercolor); 
+  text-shadow: 2px 2px 5px #000; 
   letter-spacing: 2px;
 }
 
-#zone-toggles {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
+#sidebar h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: var(--bordercolor);
+  text-shadow: 0 0 4px var(--glowcolor);
   margin-bottom: 10px;
-  color: #fcdfff;
-  font-family: 'Courier New', monospace;
+  text-align: center;
 }
 
 #zone-toggles label {
-  background: #2b0031;
-  border: 1px solid #ff9ade;
-  padding: 6px 10px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #ff00c8;
+  display: block;
+  margin: 6px 0;
+  background: var(--background);
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--bordercolor);
   cursor: pointer;
+  box-shadow: 0 0 6px var(--glowcolor);
+}
+
+.zone-option {
+  background-color: var(--background);
+  border: 1px solid var(--bordercolor);
+  color: var(--textcolor);
+  font-family: 'Courier New', monospace;
+  padding: 6px 10px;
+  margin: 3px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 0 6px var(--glowcolor);
+}
+
+.zone-option:hover {
+  background-color: var(--background);
+  box-shadow: 0 0 10px var(--glowcolor);
+}
+
+#layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+#sidebar {
+  width: 240px; 
+  padding: 20px;
+  background-color: var(--background);
+  color: var(--textcolor);
+  border-right: 2px solid var(--bordercolor);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#main-content {
+  flex-grow: 1;        
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+#map-container {
+  width: 100%;
+  max-width: 1000px;    
+  height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 #map {
-  height: 500px;
-  width: 90%;
-  margin: 0 auto;
+  width: 100%;
+  height: 80vh;
   border-radius: 20px;
-  box-shadow: 0 0 25px #00f0ff, 0 0 10px #ff00c8;
-  border: 2px solid #ff69b4; /*hot pink*/
+  border: 2px solid var(--mapbordercolor);
+  box-shadow: 0 0 25px var(--zoneres), 0 0 10px var(--glowcolor);
 }
+
 
 /* popup body */
 .leaflet-popup-content-wrapper {
-  background: #2b0031;  /*dark purple*/
-  color: #fcdfff; /*light purple*/
+  background: var(--background);  
+  color: var(--textcolor); 
   border-radius: 10px;
-  border: 1px solid #ff9ade; /*pink*/
+  border: 1px solid var(--bordercolor); 
   font-size: 0.95rem;
   text-align: left;
 }
 
 .leaflet-popup-tip {
-  background: #2b0031;
+  background: var(--background);
 }
 
 /*zones*/
@@ -63,39 +138,18 @@ h2 {
   justify-content: center;
   gap: 12px;
 }
-.zone-btn {
-  background-color: transparent;
-  color: #fcdfff;
-  border: 2px solid #ff8de6;
-  padding: 10px 16px;
-  border-radius: 12px;
-  font-family: 'Courier New', monospace;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 0.3s;
-  box-shadow: 0 0 10px #ff8de6;
-}
-.zone-btn:hover {
-  background-color: #ff8de620;
-  box-shadow: 0 0 15px #ff00c8;
-}
-.zone-btn.active {
-  background-color: #ff8de6;
-  color: #2f0033;
-  box-shadow: 0 0 15px #ff00c8, 0 0 8px #ff00c8 inset;
-}
 
 /* legend */
 #legend {
   margin-top: 12px;
   font-size: 0.9rem;
-  color: #fcdfff;
-  background: #2b0031;
+  color: var(--textcolor);
+  background: var(--background);
   display: inline-block;
   padding: 10px 14px;
-  border: 1px solid #ff9ade;
+  border: 1px solid var(--bordercolor);
   border-radius: 10px;
-  box-shadow: 0 0 12px #ff00c8;
+  box-shadow: 0 0 12px var(--glowcolor);
 }
 .legend-color {
   display: inline-block;
@@ -107,14 +161,14 @@ h2 {
   box-shadow: 0 0 8px #000;
 }
 .residential {
-  background-color: #00ff90;
-  border: 1px solid #00c078;
+  background-color: var(--zoneres);
+  border: 1px solid var(--zoneresborder);
 }
 .commercial {
-  background-color: #00d0ff;
-  border: 1px solid #0088cc;
+  background-color: var(--zonecom);
+  border: 1px solid var(--zonecomborder);
 }
 .industrial {
-  background-color: #ff8c00;
-  border: 1px solid #cc5c00;
+  background-color: var(--zoneind);
+  border: 1px solid var(--zoneindborder);
 }
