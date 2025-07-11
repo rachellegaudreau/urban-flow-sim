@@ -54,6 +54,8 @@ h2 {
   box-shadow: 0 0 6px var(--glowcolor);
 }
 
+
+
 .zone-option {
   background-color: var(--background);
   border: 1px solid var(--bordercolor);
@@ -67,9 +69,11 @@ h2 {
   box-shadow: 0 0 6px var(--glowcolor);
 }
 
-.zone-option:hover {
-  background-color: var(--background);
-  box-shadow: 0 0 10px var(--glowcolor);
+.zone-option:hover, #zone-toggles label:hover {
+  /*background-color: var(--background);
+  box-shadow: 0 0 10px var(--glowcolor);*/
+  color: #fff;
+  text-shadow: 0 0 5px var(--glowcolor), 0 0 10px var(--glowcolor);
 }
 
 #layout {
