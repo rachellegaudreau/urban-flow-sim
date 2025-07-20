@@ -6,7 +6,7 @@
   --glowcolor: #ff00c8;
 
   --zoneres: #00ffaa;
-  --zoneresborder: #08c7aa;
+  --zoneresborder: #08c797;
   --zonecom: #6a5fff;
   --zonecomborder: #522ec0;
   --zoneind: #d23232;
@@ -14,6 +14,7 @@
 
   --bordercolor: #ff9ade;
   --mapbordercolor: #ff69b4;
+  --resetcolor: #ff5252;
 }
 
 body {
@@ -56,7 +57,7 @@ h2 {
 
 
 
-.zone-option {
+.zone-option, .edit-mode-toggle {
   background-color: var(--background);
   border: 1px solid var(--bordercolor);
   color: var(--textcolor);
@@ -69,7 +70,7 @@ h2 {
   box-shadow: 0 0 6px var(--glowcolor);
 }
 
-.zone-option:hover, #zone-toggles label:hover {
+.zone-option:hover, #zone-toggles label:hover, .edit-mode-toggle:hover {
   /*background-color: var(--background);
   box-shadow: 0 0 10px var(--glowcolor);*/
   color: #fff;
@@ -135,12 +136,31 @@ h2 {
   background: var(--background);
 }
 
+.leaflet-popup-content button {
+  background-color: var(--background);
+  border: 1px solid var(--bordercolor);
+  color: var(--textcolor);
+  padding: 6px 10px;
+  margin: 3px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.leaflet-popup-content button:hover {
+  background-color: var(--background2);
+}
+
 /*zones*/
 #zone-controls {
   margin: 20px auto;
   display: flex;
   justify-content: center;
   gap: 12px;
+}
+
+.hidden-marker {
+  display: none !important;
 }
 
 /* legend */
@@ -175,4 +195,118 @@ h2 {
 .industrial {
   background-color: var(--zoneind);
   border: 1px solid var(--zoneindborder);
+}
+
+
+/* edit mode styles */
+.edit-mode .custom-marker {
+  filter: brightness(1.2) saturate(1.5);
+}
+
+.edit-mode-toggle {
+  position: relative; 
+  top: auto;
+  right: auto;
+  width: 100%;
+  margin-bottom: 15px;
+  z-index: 1;
+}
+
+.editable-name {
+  cursor: pointer;
+}
+
+/* Building Control Buttons */
+.building-control-btn {
+  background-color: var(--background);
+  border: 1px solid var(--bordercolor);
+  color: var(--textcolor);
+  padding: 8px 12px;
+  margin: 5px 0;
+  width: 100%;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 0 6px var(--glowcolor);
+}
+
+.building-control-btn:hover {
+  color: #fff;
+  text-shadow: 0 0 5px var(--glowcolor);
+}
+
+.reset-btn {
+  border-color: var(--resetcolor);
+  box-shadow: 0 0 6px var(--resetcolor);
+}
+
+/* Edit Mode Visual Cues */
+.edit-mode #map {
+  box-shadow: 0 0 25px var(--glowcolor), 0 0 15px var(--resetcolor);
+}
+
+.edit-mode #sidebar {
+  box-shadow: 0 0 15px var(--glowcolor);
+}
+
+/* Building Creation Form */
+.building-creation {
+  background: var(--background);
+  padding: 10px;
+  color: var(--textcolor);
+}
+
+.building-creation h4 {
+  margin-top: 0;
+  text-align: center;
+  color: var(--glowcolor);
+}
+
+.building-input {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  background: var(--background2);
+  border: 1px solid var(--bordercolor);
+  color: var(--textcolor);
+  font-family: 'Courier New', monospace;
+}
+
+.zone-options {
+  display: flex;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.zone-options button {
+  flex: 1;
+  padding: 6px;
+  background: var(--background);
+  border: 1px solid var(--bordercolor);
+  color: var(--textcolor);
+  cursor: pointer;
+}
+
+.zone-options button.active {
+  background: var(--glowcolor);
+  color: white;
+}
+
+.form-actions {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.confirm-btn {
+  background: var(--zoneres);
+  color: black;
+  font-weight: bold;
+  flex: 2;
+}
+
+.cancel-btn {
+  background: var(--zoneind);
+  color: white;
+  flex: 1;
 }
